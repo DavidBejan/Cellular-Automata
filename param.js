@@ -81,9 +81,15 @@ let sim, meter
 function parameter() {
         config.simsettings.NRCELLS[0] = document.getElementById('numobst').value;
         config.simsettings.NRCELLS[1] = document.getElementById('numcells').value;
+        if (document.getElementById('migratorycells').checked) {
+        console.log('Mig')
         config.simsettings.CELLCOLOR[1] = '6305fb';
-        config.conf.MAX_ACT[2] = 80;  
-    
+        config.conf.MAX_ACT[2] = 80;
+        } else {
+        console.log('Non-mig')
+        config.simsettings.CELLCOLOR[1] = '990000';
+        config.conf.MAX_ACT[2] = 20;
+  }
     
 }
 
