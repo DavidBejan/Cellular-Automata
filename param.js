@@ -58,7 +58,7 @@ let config = {
 		// Visualization
 		CANVASCOLOR : "eaecef",
 		CELLCOLOR : ["00FF00", "990000"],
-		ACTCOLOR : [true],					// Should pixel activity values be displayed?
+		ACTCOLOR : [false, true],					// Should pixel activity values be displayed?
 		SHOWBORDERS : [true, true],				// Should cellborders be displayed?
 		
 		// Output images
@@ -76,11 +76,11 @@ let config = {
 }
 /*	---------------------------------- */
 let sim, meter
-
+let steps;
 
 function parameter() {
-        config.simsettings.NRCELLS[0] = document.getElementById('numobst').value;
-        config.simsettings.NRCELLS[1] = document.getElementById('numcells').value;
+        config.simsettings.NRCELLS[0] = document.getElementById('numberobstacles').value;
+        config.simsettings.NRCELLS[1] = document.getElementById('numbercells').value;
         if (document.getElementById('migratorycells').checked) {
         console.log('Mig')
         config.simsettings.CELLCOLOR[1] = '6305fb';
@@ -90,15 +90,15 @@ function parameter() {
         config.simsettings.CELLCOLOR[1] = '990000';
         config.conf.MAX_ACT[2] = 20;
   }
-    
 }
 
 function initialize(){
         parameter();
+        steps = 0;
         let rearangeOBS = {
-    initializeGrid : initializeGrid
-  }
-	sim = new CPM.Simulation(config, rearangeOBS )
+        initializeGrid : initializeGrid
+}
+	sim = new CPM.Simulation(config, rearangeOBS)
         meter = new FPSMeter({left:"auto", right:"5px"})
 	step();
 }
@@ -107,21 +107,23 @@ function initialize(){
 function step(){
 	sim.step()
 	meter.tick()
-	if( sim.conf["RUNTIME_BROWSER"] == "Inf" | sim.time+1 < sim.conf["RUNTIME_BROWSER"] ){
-		requestAnimationFrame( step )
-	}
+        steps ++;
+	requestAnimationFrame(step);
+        document.getElementById('steps').textContent = steps;
 }
 
 
 function initializeGrid(){
+  // add the GridManipulator if not already there and if you need it
   if (!this.helpClasses["gm"]){ this.addGridManipulator() }
 
+  // Space obstacles evenly
   let obstacles = Number(this.conf.NRCELLS[0]);
   if (obstacles > 0) {
     let pad = 20;
     let width = this.C.extents[0]; let height = this.C.extents[1];
     let xStep = (width -pad*2) / (Math.ceil(Math.sqrt(obstacles))-1);
-    let yStep = (height -pad*2) / (Math.ceil(Math.sqrt(obstacles))-1);
+    let yStep = (height-pad*2) / (Math.ceil(Math.sqrt(obstacles))-1);
     let seededObstacles = 0
     for (let y=pad; y<height; y+=yStep) {
       for (let x=pad; x<width; x+=xStep) {
