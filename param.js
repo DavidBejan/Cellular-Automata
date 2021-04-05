@@ -90,7 +90,7 @@ function parameter() {
 function initialize(){
         parameter();
         let rearangeOBS = {
-    ObstacleGrid : ObstacleGrid
+    initializeGrid : initializeGrid
   }
 	sim = new CPM.Simulation(config, rearangeOBS )
         meter = new FPSMeter({left:"auto", right:"5px"})
@@ -107,7 +107,7 @@ function step(){
 }
 
 
-function ObstacleGrid(){
+function initializeGrid(){
   if (!this.helpClasses["gm"]){ this.addGridManipulator() }
 
   let obstacles = Number(this.conf.NRCELLS[0]);
