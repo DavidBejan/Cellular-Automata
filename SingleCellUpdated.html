@@ -11,6 +11,10 @@ td {
 	 padding: 10px;
 	 vertical-align: top;
 }
+input {
+  width: 3em;
+}
+
 </style>
 
 
@@ -23,13 +27,16 @@ td {
 
     <table>  
       <tr>
-        <td>Number of obstacles:</td> <td><input type="number" id="numobst" value="0"><br></td>
+        <td>Number of obstacles:</td> <td><input type="number" id="numberobstacles" value="0"><br></td>
       </tr>
       <tr>
-        <td>Number of cells:</td> <td><input type="number" id="numcells" value="60"></td>
+        <td>Number of cells:</td> <td><input type="number" id="numbercells" value="60"></td>
       </tr>
       <tr>
         <td>Migratory cells:</td> <td><input type="checkbox" id="migratorycells" checked></td>
+      </tr>
+      <tr>
+        <td>Steps:</td> <td><span id="numsteps">0</span></td>
       </tr>
     </table>
 <button style="margin-left:10px;" onclick="initialize()">Start</button><br><br>
